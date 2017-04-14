@@ -10,6 +10,10 @@ use GraphQL\Type\Definition\Type;
 class Query
 {
     /**
+     * @var string
+     */
+    private $name;
+    /**
      * @var Type
      */
     private $type;
@@ -65,5 +69,13 @@ class Query
             'resolve' => $this->resolve,
             'deprecationReason' => $this->deprecationReason
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 }
