@@ -1,7 +1,8 @@
 {
     "name": "mouf/graphql",
-    "description": "An object oriented wrapper above webonyx/graphql-php that allows clean OO and DI with GraphQL objects.",
+    "description": "An object oriented wrapper above youshido/graphql that allows clean OO and DI with GraphQL objects.",
     "require": {
+        "youshido/graphql": "^1.4",
         "webonyx/graphql-php": "^0.9.7",
         "mouf/database.tdbm": "^4.2",
         "http-interop/http-middleware": "^0.4",
