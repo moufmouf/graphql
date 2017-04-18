@@ -4,8 +4,31 @@
 namespace Mouf\GraphQL;
 
 
-class ObjectType extends \GraphQL\Type\Definition\ObjectType
+use Mouf\GraphQL\Types\Type;
+
+class ObjectType implements Type
 {
+    /**
+     * @var string
+     */
+    private $name;
+    /**
+     * @var array
+     */
+    private $fields;
+    /**
+     * @var string
+     */
+    private $description;
+    /**
+     * @var array
+     */
+    private $interfaces;
+    /**
+     * @var callable|null
+     */
+    private $resolveField;
+
     /**
      * @param string $name
      * @param array<string,Field> $fields
@@ -15,20 +38,30 @@ class ObjectType extends \GraphQL\Type\Definition\ObjectType
      */
     public function __construct(string $name, array $fields, string $description = '', array $interfaces = [], callable $resolveField = null)
     {
+
+        $this->name = $name;
+        $this->fields = $fields;
+        $this->description = $description;
+        $this->interfaces = $interfaces;
+        $this->resolveField = $resolveField;
+    }
+
+    public function toGraphQLObject() : \GraphQL\Type\Definition\Type
+    {
         $targetFields = [];
-        foreach ($fields as $key => $field) {
+        foreach ($this->fields as $key => $field) {
             $targetFields[$key] = $field->toConfig();
         }
 
         $config = [
-            'name' => $name,
+            'name' => $this->name,
             'fields' => $targetFields,
-            'description' => $description,
-            'interfaces' => $interfaces
+            'description' => $this->description,
+            'interfaces' => $this->interfaces
         ];
 
-        if ($resolveField) {
-            $config['resolveField'] = $resolveField;
+        if ($this->resolveField) {
+            $config['resolveField'] = $this->resolveField;
         } else {
             $config['resolveField'] = function($obj, $args, $context, \GraphQL\Type\Definition\ResolveInfo $info) {
                 $getter = 'get'.$info->fieldName;
@@ -36,6 +69,6 @@ class ObjectType extends \GraphQL\Type\Definition\ObjectType
             };
         }
 
-        parent::__construct($config);
+        return new \GraphQL\Type\Definition\ObjectType($config);
     }
 }

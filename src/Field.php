@@ -4,12 +4,13 @@
 namespace Mouf\GraphQL;
 
 
-use GraphQL\Type\Definition\Type;
+use Mouf\GraphQL\Types\Type;
 
 class Field
 {
 
     /**
+     * @Important IfSet
      * @param Type $type
      * @param string $description
      * @param array<string,Argument> $arguments $arguments
@@ -28,7 +29,7 @@ class Field
     public function toConfig(string $name = null) : array
     {
         $config = [
-            'type' => $this->type,
+            'type' => $this->type->toGraphQLObject(),
             'description' => $this->description,
             'args' => array_map(function(Argument $argument) {
                 return $argument->toGraphQLObject();
@@ -45,8 +46,8 @@ class Field
         return $config;
     }
 
-    public function toGraphQLObject(string $name)
+    /*public function toGraphQLObject(string $name)
     {
         return new \GraphQL\Type\Definition\ObjectType($this->toConfig($name));
-    }
+    }*/
 }

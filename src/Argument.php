@@ -5,7 +5,7 @@ namespace Mouf\GraphQL;
 
 
 
-use GraphQL\Type\Definition\Type;
+use Mouf\GraphQL\Types\Type;
 
 class Argument
 {
@@ -22,6 +22,9 @@ class Argument
      */
     private $defaultValue;
 
+    /**
+     * @Important IfSet
+     */
     public function __construct(Type $type, string $description = null, $defaultValue = null)
     {
         $this->type = $type;
@@ -32,7 +35,7 @@ class Argument
     public function toGraphQLObject()
     {
         return [
-            'type' => $this->type,
+            'type' => $this->type->toGraphQLObject(),
             'description' => $this->description,
             'defaultValue' => $this->defaultValue
         ];

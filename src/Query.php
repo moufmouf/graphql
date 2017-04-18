@@ -2,7 +2,7 @@
 namespace Mouf\GraphQL;
 
 use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
+use Mouf\GraphQL\Types\Type;
 
 /**
  * Represents a GraphQL query.
@@ -61,7 +61,7 @@ class Query
     {
         return [
             'name' => $this->name,
-            'type' => $this->type,
+            'type' => $this->type->toGraphQLObject(),
             'description' => $this->description,
             'args' => array_map(function(Argument $argument) {
                 return $argument->toGraphQLObject();
