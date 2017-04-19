@@ -4,8 +4,8 @@
 namespace Mouf\GraphQL;
 
 
-use GraphQL\Type\Definition\ResolveInfo;
 use Mouf\Database\TDBM\TDBMService;
+use Youshido\GraphQL\Execution\ResolveInfo;
 
 class TdbmListResolver implements FieldResolverInterface
 {
@@ -47,7 +47,7 @@ class TdbmListResolver implements FieldResolverInterface
         $this->additionalTablesFetch = $additionalTablesFetch;
     }
 
-    public function __invoke($value, $args, $context, ResolveInfo $info)
+    public function __invoke($value, array $args, ResolveInfo $info)
     {
         return $this->tdbmService->findObjects($this->table, $this->where, $args, $this->order, $this->additionalTablesFetch);
     }

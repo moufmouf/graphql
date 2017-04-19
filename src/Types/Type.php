@@ -4,7 +4,9 @@
 namespace Mouf\GraphQL\Types;
 
 
+use Youshido\GraphQL\Type\TypeInterface;
+
 interface Type
 {
-    public function toGraphQLObject() : \GraphQL\Type\Definition\Type;
+    public function toGraphQLObject() : TypeInterface;
 }

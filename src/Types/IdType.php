@@ -4,10 +4,12 @@
 namespace Mouf\GraphQL\Types;
 
 
+use Youshido\GraphQL\Type\TypeInterface;
+
 class IdType implements Type
 {
-    public function toGraphQLObject(): \GraphQL\Type\Definition\Type
+    public function toGraphQLObject(): TypeInterface
     {
-        return \GraphQL\Type\Definition\Type::id();
+        return new \Youshido\GraphQL\Type\Scalar\IdType();
     }
 }

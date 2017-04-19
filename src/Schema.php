@@ -20,19 +20,19 @@ class Schema
     }
 
 
-    public function toGraphQLSchema() : \GraphQL\Schema
+    public function toGraphQLSchema() : \Youshido\GraphQL\Schema\Schema
     {
         $graphQLQueries = [];
         foreach ($this->queries as $query) {
             $graphQLQueries[$query->getName()] = $query->toConfig();
         }
 
-        $queryObj = new \GraphQL\Type\Definition\ObjectType([
-            'name' => 'Query',
+        $queryObj = new \Youshido\GraphQL\Type\Object\ObjectType([
+            'name' => 'RootQueryType',
             'fields' => $graphQLQueries
         ]);
 
-        return new \GraphQL\Schema([
+        return new \Youshido\GraphQL\Schema\Schema([
             'query' => $queryObj
         ]);
     }

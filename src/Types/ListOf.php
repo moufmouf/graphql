@@ -4,6 +4,9 @@
 namespace Mouf\GraphQL\Types;
 
 
+use Youshido\GraphQL\Type\ListType\ListType;
+use Youshido\GraphQL\Type\TypeInterface;
+
 class ListOf implements Type
 {
     /**
@@ -20,8 +23,8 @@ class ListOf implements Type
     }
 
 
-    public function toGraphQLObject(): \GraphQL\Type\Definition\Type
+    public function toGraphQLObject(): TypeInterface
     {
-        return new \GraphQL\Type\Definition\ListOfType($this->type->toGraphQLObject());
+        return new ListType($this->type->toGraphQLObject());
     }
 }

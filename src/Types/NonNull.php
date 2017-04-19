@@ -4,6 +4,9 @@
 namespace Mouf\GraphQL\Types;
 
 
+use Youshido\GraphQL\Type\NonNullType;
+use Youshido\GraphQL\Type\TypeInterface;
+
 class NonNull implements Type
 {
     /**
@@ -20,8 +23,8 @@ class NonNull implements Type
     }
 
 
-    public function toGraphQLObject(): \GraphQL\Type\Definition\Type
+    public function toGraphQLObject(): TypeInterface
     {
-        return new \GraphQL\Type\Definition\NonNull($this->type->toGraphQLObject());
+        return new NonNullType($this->type->toGraphQLObject());
     }
 }

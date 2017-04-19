@@ -5,6 +5,7 @@ use GraphQL\GraphQL;
 use Mouf\GraphQL\Schema;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Youshido\GraphQL\Execution\Processor;
 use Zend\Diactoros\Response\JsonResponse;
 
 class GraphQLMiddleware implements \Interop\Http\ServerMiddleware\MiddlewareInterface
@@ -72,9 +73,15 @@ class GraphQLMiddleware implements \Interop\Http\ServerMiddleware\MiddlewareInte
 
         list($query, $variables) = $this->getPayload($request);
 
-        $res = GraphQL::execute($this->schema->toGraphQLSchema(), $query, null, null, $variables, null);
 
+        $processor = new Processor($this->schema->toGraphQLSchema());
+        $processor->processPayload($query, $variables);
+        $res = $processor->getResponseData();
         return new JsonResponse($res);
+
+        /*$res = GraphQL::execute($this->schema->toGraphQLSchema(), $query, null, null, $variables, null);
+
+        return new JsonResponse($res);*/
     }
 
     private function isGraphQLRequest(ServerRequestInterface $request)

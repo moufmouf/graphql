@@ -4,9 +4,9 @@
 namespace Mouf\GraphQL;
 
 
-use GraphQL\Type\Definition\ResolveInfo;
+use Youshido\GraphQL\Execution\ResolveInfo;
 
 interface FieldResolverInterface
 {
-    public function __invoke($value, $args, $context, ResolveInfo $info);
+    public function __invoke($value, array $args, ResolveInfo $info);
 }

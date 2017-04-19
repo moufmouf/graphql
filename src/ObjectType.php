@@ -5,6 +5,8 @@ namespace Mouf\GraphQL;
 
 
 use Mouf\GraphQL\Types\Type;
+use Youshido\GraphQL\Execution\ResolveInfo;
+use Youshido\GraphQL\Type\TypeInterface;
 
 class ObjectType implements Type
 {
@@ -46,7 +48,7 @@ class ObjectType implements Type
         $this->resolveField = $resolveField;
     }
 
-    public function toGraphQLObject() : \GraphQL\Type\Definition\Type
+    public function toGraphQLObject() : TypeInterface
     {
         $targetFields = [];
         foreach ($this->fields as $key => $field) {
@@ -61,14 +63,14 @@ class ObjectType implements Type
         ];
 
         if ($this->resolveField) {
-            $config['resolveField'] = $this->resolveField;
+            $config['resolve'] = $this->resolveField;
         } else {
-            $config['resolveField'] = function($obj, $args, $context, \GraphQL\Type\Definition\ResolveInfo $info) {
-                $getter = 'get'.$info->fieldName;
-                return $obj->$getter();
+            $config['resolve'] = function($source, array $args, ResolveInfo $info) {
+                $getter = 'get'.$info->getField()->getName();
+                return $source->$getter();
             };
         }
 
-        return new \GraphQL\Type\Definition\ObjectType($config);
+        return new \Youshido\GraphQL\Type\Object\ObjectType($config);
     }
 }

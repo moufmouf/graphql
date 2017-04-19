@@ -5,7 +5,8 @@
         "youshido/graphql": "^1.4",
         "mouf/database.tdbm": "^4.2",
         "http-interop/http-middleware": "^0.4",
-        "zendframework/zend-diactoros": "^1.0"
+        "zendframework/zend-diactoros": "^1.0",
+        "roave/better-reflection": "^1.2"
     },
     "require-dev": {
         "mouf/mouf": "^2.0"

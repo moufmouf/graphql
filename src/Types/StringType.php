@@ -4,10 +4,12 @@
 namespace Mouf\GraphQL\Types;
 
 
+use Youshido\GraphQL\Type\TypeInterface;
+
 class StringType implements Type
 {
-    public function toGraphQLObject(): \GraphQL\Type\Definition\Type
+    public function toGraphQLObject(): TypeInterface
     {
-        return \GraphQL\Type\Definition\Type::string();
+        return new \Youshido\GraphQL\Type\Scalar\StringType();
     }
 }

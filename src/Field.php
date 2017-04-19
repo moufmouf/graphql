@@ -13,7 +13,7 @@ class Field
      * @Important IfSet
      * @param Type $type
      * @param string $description
-     * @param array<string,Argument> $arguments $arguments
+     * @param array<string,Type> $arguments $arguments
      * @param callable|FieldResolverInterface|null $resolve
      * @param string|null $deprecationReason
      */
@@ -31,7 +31,7 @@ class Field
         $config = [
             'type' => $this->type->toGraphQLObject(),
             'description' => $this->description,
-            'args' => array_map(function(Argument $argument) {
+            'args' => array_map(function(Type $argument) {
                 return $argument->toGraphQLObject();
             }, $this->arguments)
         ];
@@ -41,13 +41,20 @@ class Field
         }
 
         if ($this->deprecationReason) {
+            $config['isDeprecated'] = true;
             $config['deprecationReason'] = $this->deprecationReason;
         }
+
+        if ($this->resolve) {
+            $config['resolve'] = $this->resolve;
+        }
+
         return $config;
     }
 
-    /*public function toGraphQLObject(string $name)
+    public function toGraphQLObject(string $name = null)
     {
-        return new \GraphQL\Type\Definition\ObjectType($this->toConfig($name));
-    }*/
+        return new \Youshido\GraphQL\Field\Field($this->toConfig($name));
+        //return new \GraphQL\Type\Definition\ObjectType($this->toConfig($name));
+    }
 }

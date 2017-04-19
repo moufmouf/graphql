@@ -1,7 +1,6 @@
 <?php
 namespace Mouf\GraphQL;
 
-use GraphQL\Type\Definition\ObjectType;
 use Mouf\GraphQL\Types\Type;
 
 /**
@@ -22,7 +21,7 @@ class Query
      */
     private $description;
     /**
-     * @var Argument[]
+     * @var Type[]
      */
     private $arguments;
     /**
@@ -38,7 +37,7 @@ class Query
      * @param string $name
      * @param Type $type
      * @param string $description
-     * @param array<string,Argument> $arguments
+     * @param array<string,Type> $arguments
      * @param callable|FieldResolverInterface|null $resolve
      * @param string|null $deprecationReason
      */
@@ -54,7 +53,7 @@ class Query
 
     public function toGraphQLObject()
     {
-        return new ObjectType($this->toConfig());
+        return new \Youshido\GraphQL\Type\Object\ObjectType($this->toConfig());
     }
 
     public function toConfig()
@@ -63,7 +62,7 @@ class Query
             'name' => $this->name,
             'type' => $this->type->toGraphQLObject(),
             'description' => $this->description,
-            'args' => array_map(function(Argument $argument) {
+            'args' => array_map(function(Type $argument) {
                 return $argument->toGraphQLObject();
             }, $this->arguments),
             'resolve' => $this->resolve,
